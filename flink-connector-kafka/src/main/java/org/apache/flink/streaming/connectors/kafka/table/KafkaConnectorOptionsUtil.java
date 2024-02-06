@@ -74,7 +74,7 @@ import static org.apache.flink.table.factories.FactoryUtil.FORMAT;
 
 /** Utilities for {@link KafkaConnectorOptions}. */
 @Internal
-class KafkaConnectorOptionsUtil {
+public class KafkaConnectorOptionsUtil {
 
     private static final ConfigOption<String> SCHEMA_REGISTRY_SUBJECT =
             ConfigOptions.key("schema-registry.subject").stringType().noDefaultValue();

@@ -108,7 +108,7 @@ public class KafkaDynamicTableFactory
         implements DynamicTableSourceFactory, DynamicTableSinkFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaDynamicTableFactory.class);
-    private static final ConfigOption<String> SINK_SEMANTIC =
+    protected static final ConfigOption<String> SINK_SEMANTIC =
             ConfigOptions.key("sink.semantic")
                     .stringType()
                     .noDefaultValue()
@@ -288,7 +288,7 @@ public class KafkaDynamicTableFactory
 
     // --------------------------------------------------------------------------------------------
 
-    private static Optional<DecodingFormat<DeserializationSchema<RowData>>> getKeyDecodingFormat(
+    protected static Optional<DecodingFormat<DeserializationSchema<RowData>>> getKeyDecodingFormat(
             TableFactoryHelper helper) {
         final Optional<DecodingFormat<DeserializationSchema<RowData>>> keyDecodingFormat =
                 helper.discoverOptionalDecodingFormat(
@@ -307,7 +307,7 @@ public class KafkaDynamicTableFactory
         return keyDecodingFormat;
     }
 
-    private static Optional<EncodingFormat<SerializationSchema<RowData>>> getKeyEncodingFormat(
+    protected static Optional<EncodingFormat<SerializationSchema<RowData>>> getKeyEncodingFormat(
             TableFactoryHelper helper) {
         final Optional<EncodingFormat<SerializationSchema<RowData>>> keyEncodingFormat =
                 helper.discoverOptionalEncodingFormat(SerializationFormatFactory.class, KEY_FORMAT);
@@ -325,7 +325,7 @@ public class KafkaDynamicTableFactory
         return keyEncodingFormat;
     }
 
-    private static DecodingFormat<DeserializationSchema<RowData>> getValueDecodingFormat(
+    protected static DecodingFormat<DeserializationSchema<RowData>> getValueDecodingFormat(
             TableFactoryHelper helper) {
         return helper.discoverOptionalDecodingFormat(
                         DeserializationFormatFactory.class, FactoryUtil.FORMAT)
@@ -335,7 +335,7 @@ public class KafkaDynamicTableFactory
                                         DeserializationFormatFactory.class, VALUE_FORMAT));
     }
 
-    private static EncodingFormat<SerializationSchema<RowData>> getValueEncodingFormat(
+    protected static EncodingFormat<SerializationSchema<RowData>> getValueEncodingFormat(
             TableFactoryHelper helper) {
         return helper.discoverOptionalEncodingFormat(
                         SerializationFormatFactory.class, FactoryUtil.FORMAT)
@@ -345,7 +345,7 @@ public class KafkaDynamicTableFactory
                                         SerializationFormatFactory.class, VALUE_FORMAT));
     }
 
-    private static void validatePKConstraints(
+    protected static void validatePKConstraints(
             ObjectIdentifier tableName,
             int[] primaryKeyIndexes,
             Map<String, String> options,
@@ -365,7 +365,7 @@ public class KafkaDynamicTableFactory
         }
     }
 
-    private static DeliveryGuarantee validateDeprecatedSemantic(ReadableConfig tableOptions) {
+    protected static DeliveryGuarantee validateDeprecatedSemantic(ReadableConfig tableOptions) {
         if (tableOptions.getOptional(SINK_SEMANTIC).isPresent()) {
             LOG.warn(
                     "{} is deprecated and will be removed. Please use {} instead.",
