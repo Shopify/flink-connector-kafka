@@ -139,6 +139,26 @@ DynamicKafkaSource<String> source =
         .build();
 ```
 {{< /tab >}}
+{{< tab "Python" >}}
+```python
+starting_offsets = KafkaOffsetsInitializer.offsets({
+    KafkaTopicPartition("input-stream", 0): 100,
+    KafkaTopicPartition("input-stream", 1): 200,
+})
+
+metadata_service = SingleClusterTopicMetadataService(
+    "cluster-a",
+    {"bootstrap.servers": "localhost:9092"},
+    starting_offsets_initializer=starting_offsets)
+
+source = DynamicKafkaSource.builder() \
+    .set_kafka_metadata_service(metadata_service) \
+    .set_stream_ids({"input-stream"}) \
+    .set_starting_offsets(KafkaOffsetsInitializer.latest()) \
+    .set_value_only_deserializer(SimpleStringSchema()) \
+    .build()
+```
+{{< /tab >}}
 {{< /tabs >}}
 
 ### Watermark 对齐
